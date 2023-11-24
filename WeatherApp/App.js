@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, ScrollView, Dimensions, ActivityIndicator } fro
 import * as Location from 'expo-location';
 import { Fontisto } from '@expo/vector-icons';
 const {width:SCREEN_WIDTH} = Dimensions.get('window');
-const API_KEY = '0abff7496354b2d1a47f62e16a7cf464';
 
 const icons = {
   "Clouds" : "cloudy",
@@ -28,7 +27,7 @@ export default function App() {
    const {coords:{latitude, longitude}} = await Location.getCurrentPositionAsync({accuracy: 5})
    const location = await Location.reverseGeocodeAsync({latitude, longitude})
    setStreet(location[0].street)
-   const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`)
+   const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.API_KEY}&units=metric`)
    const {list} = await response.json()
    const filterList = list.filter(({dt_txt}) => dt_txt.endsWith("03:00:00"))
    setDays(() => filterList)
